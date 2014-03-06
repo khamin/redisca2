@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -
 
 from redisca2.base import Model
+from redisca2.base import conf
+
 from .redis import RedisConnector
 
 
