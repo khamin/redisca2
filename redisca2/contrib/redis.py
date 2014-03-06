@@ -173,7 +173,7 @@ class RedisConnector (Connector):
 			val = model[field.name]
 
 			if field.unique:
-				models = field.find(val, val)
+				models = field == val
 
 				if len(models) > 1 or len(models) == 1 and models[0] is not model:
 					raise Exception('Duplicate key error')
