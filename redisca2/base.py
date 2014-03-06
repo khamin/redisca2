@@ -335,8 +335,12 @@ class Model (BaseModel):
 		""" Fill model with *new* values. """
 
 		for name, field in self.getfields().items():
-			val = field.new
-			val = val() if isfunction(val) or ismethod(val) or isbuiltin(val) else val
+			if field.new is None:
+				continue
+
+			val = field.new() if isfunction(field.new) or \
+				ismethod(field.new) or isbuiltin(field.new) else field.new
+
 			setattr(self, name, val)
 
 		return self
