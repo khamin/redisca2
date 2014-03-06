@@ -360,6 +360,7 @@ class Model (BaseModel):
 			return
 
 		if self._exists is False:
+			self._data = dict()
 			return
 
 		data = self.getdb().getall(self)
@@ -444,6 +445,7 @@ class Model (BaseModel):
 
 	def _load (self, data):
 		""" Load given data into model. """
+		assert type(data) is dict
 
 		self._data = data
 		self._exists = bool(len(self._data))
