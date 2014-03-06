@@ -184,6 +184,9 @@ class RedisConnector (Connector):
 				model._id: field.to_db(val)
 			})
 
+		else:
+			raise Exception('Bad field type given')
+
 	def _del_idx (self, field, model, pipe=None):
 		""" Delete db index value of model.field. """
 
@@ -204,3 +207,6 @@ class RedisConnector (Connector):
 		elif isinstance(field, RangeIndexField):
 			key = self.ridx_key(model.getprefix(), field.name)
 			pipe.zrem(key, model._id)
+
+		else:
+			raise Exception('Bad field type given')
