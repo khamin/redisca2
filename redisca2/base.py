@@ -260,7 +260,8 @@ class Model (BaseModel):
 			data.update(self._diff)
 
 			for name in self._dels:
-				del data[name]
+				if name in data:
+					del data[name]
 
 			return data
 
