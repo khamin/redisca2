@@ -216,6 +216,7 @@ class Model (BaseModel):
 
 		else:
 			self._diff[name] = value
+			self._dels.discard(name)
 
 	def __delitem__ (self, name):
 		self._dels.add(name)
