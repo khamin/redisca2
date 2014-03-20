@@ -74,6 +74,7 @@ Available parameters:
 -  **index** - makes field searchable.
 -  **unique** - tells that value should be unique across database. Model.save() will raise an Exception if model of same class already exists with given value.
 -  **new** - field value which is used as default in Model.new(). Functions, methods and built-in's are acceptable as callback values.
+-  **none** - what is returned if field value is None
 
 Built-in fields:
 
@@ -96,6 +97,18 @@ Here is an example how to get model instance using id *(empty model returned if 
 
 	user = User('user id')
 	print(user.email) # 'foo@bar.com'
+
+Raise Exception if model is not exists yet:
+
+.. code:: python
+
+	user = User('user id', must_exist=True)
+
+You can disable lazy-loading if needed:
+
+.. code:: python
+
+	user = User('user id', force_load=True)
 
 Each initialized model is saved in registry and returned on each attempt of re-init:
 
@@ -132,6 +145,14 @@ All fields are linked to model dict keys. Use can use model dict API to read and
 	user = User('id')
 	user['eml'] = 'foo@bar.com'
 	user['age'] = 10
+
+Note that keys with None values will be removed from model dict:
+
+.. code:: python
+
+	user['eml'] = None
+	'eml' in user     # False
+	print user['eml'] # Raises KeyError
 
 Connecting to Redis
 -------------------
