@@ -714,3 +714,29 @@ class ModelTestCase (TestCase):
 			langs = Language.active == operand
 			self.assertEqual(len(langs), 0)
 			self.assertTrue(lang not in langs)
+
+	def test_issue1 (self):
+		user1 = User(1)
+
+		user1.email = 'foo@bar.com'
+		self.assertEqual(user1.email, 'foo@bar.com')
+
+		user1.save()
+		user1.load()
+
+		user1.email = 'bar@foo.org'
+		self.assertEqual(user1.email, 'bar@foo.org')
+
+		user1.email = 'foo@bar.com'
+		self.assertEqual(user1.email, 'foo@bar.com')
+		self.assertEqual(user1._diff, dict())
+
+		user1.email = None
+		self.assertEqual(user1.email, None)
+		self.assertEqual(user1._diff, dict())
+		self.assertEqual(len(user1._dels), 1)
+
+		user1.email = 'foo@bar.com'
+		self.assertEqual(user1.email, 'foo@bar.com')
+		self.assertEqual(user1._diff, dict())
+		self.assertEqual(len(user1._dels), 0)
