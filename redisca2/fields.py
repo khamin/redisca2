@@ -20,9 +20,6 @@ from .utils import (
 )
 
 
-EMAIL_REGEXP = re.compile(r"^[a-z0-9]+[_a-z0-9-]*(\.[_a-z0-9-]+)*@[a-z0-9]+[\.a-z0-9-]*(\.[a-z]{2,4})$")
-
-
 class IndexField (Field):
 	""" Base class for fields with exact indexing. """
 
@@ -75,6 +72,8 @@ class String (IndexField):
 
 
 class Email (IndexField):
+	REGEXP = re.compile(r"^[a-z0-9]+[_a-z0-9-]*(\.[_a-z0-9-]+)*@[a-z0-9]+[\.a-z0-9-]*(\.[a-z]{2,4})$")
+
 	def idx_key (self, prefix, val):
 		if val is not None:
 			val = val.lower()
@@ -96,7 +95,7 @@ class Email (IndexField):
 	def to_db (self, val):
 		val = val.lower()
 
-		if EMAIL_REGEXP.match(val) == None:
+		if self.REGEXP.match(val) == None:
 			raise Exception('Email validation failed')
 
 		return val
