@@ -231,7 +231,8 @@ class Model (BaseModel):
 			self._dels.discard(name)
 
 	def __delitem__ (self, name):
-		self._dels.add(name)
+		if self._exists is not False:
+			self._dels.add(name)
 
 		if name in self._diff:
 			del self._diff[name]
