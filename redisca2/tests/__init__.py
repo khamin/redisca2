@@ -109,6 +109,7 @@ class SubLang (Language):
 
 SubLang.flag = String(
 	name='flag',
+	none='test',
 )
 
 SubLang.foobar = 'foobar'
@@ -751,3 +752,13 @@ class ModelTestCase (TestCase):
 		self.assertEqual(user1.email, 'foo@bar.com')
 		self.assertEqual(user1._diff, dict())
 		self.assertEqual(len(user1._dels), 0)
+
+	def test_none_val (self):
+		sublang = SubLang(1)
+		self.assertEqual(sublang.flag, 'test')
+		self.assertFalse('flag' in sublang)
+
+		sublang.flag = 'test'
+
+		self.assertEqual(sublang.flag, 'test')
+		self.assertTrue('flag' in sublang)

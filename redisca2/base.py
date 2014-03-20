@@ -91,11 +91,12 @@ class BExpr (object):
 
 
 class Field (object):
-	def __init__ (self, name, index=False, unique=False, new=None):
+	def __init__ (self, name, index=False, unique=False, new=None, none=None):
 		self.new = new
 		self.index = bool(index)
 		self.unique = bool(unique)
 		self.name = name
+		self.none = none
 
 	def __get__ (self, model, owner):
 		self.owner = owner
@@ -103,11 +104,8 @@ class Field (object):
 		if model is None:
 			return self
 
-		try:
-			return self.from_db(model[self.name])
-
-		except KeyError:
-			return None
+		return self.from_db(model[self.name]) \
+			if self.name in model else self.none
 
 	def __set__ (self, model, value):
 		""" Warning: do not overwrite it in custom fields! """
