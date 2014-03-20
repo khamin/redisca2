@@ -110,6 +110,7 @@ class Field (object):
 			return None
 
 	def __set__ (self, model, value):
+		""" Warning: do not overwrite it in custom fields! """
 		model[self.name] = None if value is None else self.to_db(value)
 
 	def __lt__ (self, other):

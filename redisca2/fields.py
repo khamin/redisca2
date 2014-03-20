@@ -62,29 +62,19 @@ class String (IndexField):
 		self.minlen = minlen
 		self.maxlen = maxlen
 
-	def __set__ (self, model, value):
-		if value is not None:
-			value = str(value) if PY3K else unicode(value)
+	def to_db (self, val):
+		val = str(val) if PY3K else unicode(val)
 
-			if self.minlen is not None and len(value) < self.minlen:
-				raise Exception('Minimal length check failed')
+		if self.minlen is not None and len(val) < self.minlen:
+			raise Exception('Minimal length check failed')
 
-			if self.maxlen is not None and len(value) > self.maxlen:
-				raise Exception('Maximum length check failed')
+		if self.maxlen is not None and len(val) > self.maxlen:
+			raise Exception('Maximum length check failed')
 
-		model[self.name] = value
+		return val
 
 
 class Email (IndexField):
-	def __set__ (self, model, value):
-		if value is not None:
-			value = value.lower()
-
-			if EMAIL_REGEXP.match(value) == None:
-				raise Exception('Email validation failed')
-
-		return super(Email, self).__set__(model, value)
-
 	def idx_key (self, prefix, val):
 		if val is not None:
 			val = val.lower()
@@ -104,7 +94,12 @@ class Email (IndexField):
 		return super(Email, self).choice(val, count)
 
 	def to_db (self, val):
-		return val.lower()
+		val = val.lower()
+
+		if EMAIL_REGEXP.match(val) == None:
+			raise Exception('Email validation failed')
+
+		return val
 
 
 class Integer (RangeIndexField):
@@ -117,20 +112,16 @@ class Integer (RangeIndexField):
 		self.minval = minval
 		self.maxval = maxval
 
-	def __set__ (self, model, value):
-		if value is not None:
-			value = int(value)
-
-			if self.minval is not None and value < self.minval:
-				raise Exception('Minimal value check failed')
-
-			if self.maxval is not None and value > self.maxval:
-				raise Exception('Maximum value check failed')
-
-		model[self.name] = value
-
 	def to_db (self, val):
-		return int(val)
+		val = int(val)
+
+		if self.minval is not None and val < self.minval:
+			raise Exception('Minimal value check failed')
+
+		if self.maxval is not None and val > self.maxval:
+			raise Exception('Maximum value check failed')
+
+		return val
 
 	def from_db (self, val):
 		return int(val)
@@ -145,16 +136,9 @@ class DateTime (RangeIndexField):
 
 
 class MD5Pass (String):
-	def __set__ (self, model, value):
-		super(MD5Pass, self).__set__(model, value)
-
-		if value is not None:
-			val = model[self.name]
-
-			if PY3K:
-				val = val.encode('utf-8')
-
-			model[self.name] = md5(val).hexdigest()
+	def to_db (self, val):
+		val = super(MD5Pass, self).to_db(val)
+		return md5(val.encode('utf-8')).hexdigest()
 
 
 class Reference (IndexField):
