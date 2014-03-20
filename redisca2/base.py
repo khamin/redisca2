@@ -180,12 +180,15 @@ else:
 class Model (BaseModel):
 	_cls2prefix = dict()
 
-	def __init__ (self, model_id, must_exist=False):
+	def __init__ (self, model_id, must_exist=False, force_load=False):
 		self._id = model_id
 		self._exists = None
 		self._diff = dict() # Local changes.
 		self._dels = set()  # Removed field names.
 		self._data = None   # Data from database.
+
+		if force_load:
+			self.load()
 
 		if must_exist and not self.exists():
 			raise Exception('%s(%s) not found' % (
