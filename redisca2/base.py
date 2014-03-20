@@ -180,12 +180,18 @@ else:
 class Model (BaseModel):
 	_cls2prefix = dict()
 
-	def __init__ (self, model_id):
+	def __init__ (self, model_id, must_exist=False):
 		self._id = model_id
 		self._exists = None
 		self._diff = dict() # Local changes.
 		self._dels = set()  # Removed field names.
 		self._data = None   # Data from database.
+
+		if must_exist and not self.exists():
+			raise Exception('%s(%s) not found' % (
+				self.__class__.__name__,
+				self._id,
+			))
 
 	def __len__ (self):
 		return len(self.getall())
