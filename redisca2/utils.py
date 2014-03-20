@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -
 
-from time import time
-from random import randint
-from sys import version_info
+from time import (
+	time,
+)
+
+from random import (
+	randint,
+)
+
+from sys import (
+	version_info,
+)
 
 
 # If running on Python 3.x

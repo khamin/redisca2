@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -
 
-from redisca2.base import Model
-from redisca2.base import conf
+from redisca2.base import (
+	Model,
+	conf,
+)
 
-from .redis import RedisConnector
+from .redis import (
+	RedisConnector,
+)
 
 
 class FlaskRedisca (object):

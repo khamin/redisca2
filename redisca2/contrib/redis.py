@@ -1,14 +1,26 @@
 # -*- coding: utf-8 -
 
-from __future__ import absolute_import
+from __future__ import (
+	absolute_import,
+)
 
-from redis import StrictRedis
+from redis import (
+	StrictRedis,
+)
 
-from redisca2.base import BExpr
-from redisca2.base import Connector
-from redisca2.fields import IndexField
-from redisca2.fields import RangeIndexField
-from redisca2.utils import PY3K
+from redisca2.base import (
+	BExpr,
+	Connector,
+)
+
+from redisca2.fields import (
+	IndexField,
+	RangeIndexField,
+)
+
+from redisca2.utils import (
+	PY3K,
+)
 
 
 class RedisConnector (Connector):

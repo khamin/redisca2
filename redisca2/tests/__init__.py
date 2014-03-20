@@ -1,23 +1,34 @@
 # -*- coding: utf-8 -
 
-from unittest import TestCase
-from datetime import datetime
-from time import time
+from unittest import (
+	TestCase,
+)
 
-from redisca2 import PY3K
-from redisca2 import RedisConnector
-from redisca2 import Model
-from redisca2 import Field
-from redisca2 import Bool
-from redisca2 import Email
-from redisca2 import Integer
-from redisca2 import String
-from redisca2 import MD5Pass
-from redisca2 import DateTime
-from redisca2 import Reference
-from redisca2 import hexid
-from redisca2 import intid
-from redisca2 import conf
+from datetime import (
+	datetime,
+)
+
+from time import (
+	time,
+)
+
+from redisca2 import (
+	PY3K,
+	RedisConnector,
+	Model,
+	Field,
+	Bool,
+	Email,
+	Integer,
+	String,
+	MD5Pass,
+	DateTime,
+	Reference,
+	hexid,
+	intid,
+	conf,
+)
+
 
 NOW_TS = int(time())
 NOW = datetime.fromtimestamp(NOW_TS)

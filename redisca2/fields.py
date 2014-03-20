@@ -2,12 +2,22 @@
 
 import re
 
-from datetime import datetime
-from hashlib import md5
+from datetime import (
+	datetime,
+)
 
-from .base import Model
-from .base import Field
-from .utils import PY3K
+from hashlib import (
+	md5,
+)
+
+from .base import (
+	Model,
+	Field,
+)
+
+from .utils import (
+	PY3K,
+)
 
 
 EMAIL_REGEXP = re.compile(r"^[a-z0-9]+[_a-z0-9-]*(\.[_a-z0-9-]+)*@[a-z0-9]+[\.a-z0-9-]*(\.[a-z]{2,4})$")

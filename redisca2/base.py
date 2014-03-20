@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -
 
-from inspect import isfunction
-from inspect import ismethod
-from inspect import isbuiltin
+from inspect import (
+	isbuiltin,
+	isfunction,
+	ismethod,
+)
 
-from .utils import PY3K
-from .utils import hexid
+from .utils import (
+	PY3K,
+	hexid,
+)
 
 
 class Connector (object):
