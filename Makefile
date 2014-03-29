@@ -15,7 +15,7 @@ test2: clean
 	python setup.py test
 
 test3: clean
-	python3.3 setup.py test
+	python3 setup.py test
 
 test-pypy: clean
 	pypy setup.py test
