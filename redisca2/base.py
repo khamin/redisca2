@@ -164,8 +164,8 @@ class MetaModel (type):
 			model_id = str(model_id)
 
 		if model_id not in cls._objects:
-			cls._objects[model_id] = object.__new__(cls, *args, **kw)
-			cls._objects[model_id].__init__(model_id)
+			cls._objects[model_id] = object.__new__(cls)
+			cls._objects[model_id].__init__(model_id, *args, **kw)
 
 		return cls._objects[model_id]
 
