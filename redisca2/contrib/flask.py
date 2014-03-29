@@ -21,12 +21,7 @@ class FlaskRedisca (object):
 		self.app = app
 
 		conf.db = RedisConnector(**self.app.config['REDISCA'])
-
-		self.app.before_request(self.before_request)
 		self.app.teardown_request(self.after_request)
-
-	def before_request (self):
-		pass
 
 	def after_request (self, exc):
 		if exc is None and self.autosave:
