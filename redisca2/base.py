@@ -133,9 +133,14 @@ class Field (object):
 		return str(val) if PY3K else unicode(val)
 
 
+known_classes = dict()
+
+
 class MetaModel (type):
 	def __new__ (mcs, name, bases, dct):
 		cls = super(MetaModel, mcs).__new__(mcs, name, bases, dct)
+		known_classes[name] = cls # Known classes registry.
+
 		cls._objects = dict() # id -> model objects registry.
 		cls._fields = dict()
 
@@ -447,6 +452,15 @@ class Model (BaseModel):
 
 		for child in cls.__subclasses__():
 			child.free_all()
+
+	@classmethod
+	def getcls (cls, name):
+		""" Get model class from name. """
+
+		if name not in known_classes:
+			raise Exception('Model class %s not found' % name)
+
+		return known_classes[name]
 
 	@classmethod
 	def inheritors (cls):

@@ -93,7 +93,7 @@ class Language (BaseModel):
 
 
 User.lang = Reference(
-	Language,
+	'Language',
 	name='lang',
 	index=True,
 )
@@ -762,3 +762,13 @@ class ModelTestCase (TestCase):
 
 		self.assertEqual(sublang.flag, 'test')
 		self.assertTrue('flag' in sublang)
+
+	def test_getcls (self):
+		cls = SubLang.getcls('Model')
+		self.assertTrue(cls is Model)
+
+		cls = SubLang.getcls('User')
+		self.assertTrue(cls is User)
+
+		with self.assertRaises(Exception):
+			SubLang.getcls('UnknownClass')

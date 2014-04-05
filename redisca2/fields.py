@@ -19,6 +19,10 @@ from .utils import (
 	PY3K,
 )
 
+from inspect import (
+	isclass,
+)
+
 
 class IndexField (Field):
 	""" Base class for fields with exact indexing. """
@@ -143,11 +147,11 @@ class MD5Pass (String):
 class Reference (IndexField):
 	def __init__ (self, cls, **kw):
 		super(Reference, self).__init__(**kw)
-		assert issubclass(cls, Model)
 		self._cls = cls
 
 	def to_db (self, val):
 		return val._id if isinstance(val, Model) else val
 
 	def from_db (self, val):
-		return self._cls(val)
+		cls = self._cls if isclass(self._cls) else Model.getcls(self._cls)
+		return cls(val)
