@@ -86,6 +86,10 @@ class RedisConnector (Connector):
 		""" Return all model instances id's. """
 		return self.handler.smembers(model_cls.getprefix())
 
+	def count_all (self, model_cls):
+		""" Return all model instances count. """
+		return self.handler.scard(model_cls.getprefix())
+
 	def get (self, model, name):
 		""" Return value of model hash key. """
 

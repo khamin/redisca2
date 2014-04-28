@@ -773,7 +773,7 @@ class ModelTestCase (TestCase):
 		with self.assertRaises(Exception):
 			SubLang.getcls('UnknownClass')
 
-	def test_all (self):
+	def test_count_all (self):
 		user = User(0)
 		user.age = 1
 		user.save()
@@ -786,12 +786,16 @@ class ModelTestCase (TestCase):
 		User.save_all()
 		User.free_all()
 
+		self.assertEqual(User.count_all(), 10)
+
 		users = User.all()
 		self.assertEqual(len(users), 10)
 
 		for i in range(0, 10):
 			self.assertTrue(User(i) in users)
 			User(i).delete()
+
+		self.assertEqual(User.count_all(), 0)
 
 		users = User.all()
 		self.assertEqual(len(users), 0)

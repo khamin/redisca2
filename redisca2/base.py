@@ -256,6 +256,11 @@ class Model (BaseModel):
 
 		return instances
 
+	@classmethod
+	def count_all (cls):
+		""" Return all model instances count. """
+		return cls.getdb().count_all(cls)
+
 	def get (self, name, default=None, origin=False, lite=False):
 		""" Return value of model[name].
 		Default value is returned if name not in model hash.
