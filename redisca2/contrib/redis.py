@@ -56,6 +56,9 @@ class RedisConnector (Connector):
 		if len(model._diff):
 			_pipe.hmset(self.getkey(model), model._diff)
 
+		if model._exists is not True:
+			_pipe.sadd(model.getprefix(), model.getid())
+
 		if pipe is None and len(_pipe):
 			_pipe.execute()
 
@@ -70,11 +73,18 @@ class RedisConnector (Connector):
 
 		_pipe.delete(self.getkey(model))
 
+		if model._exists is not False:
+			_pipe.srem(model.getprefix(), model.getid())
+
 		if pipe is None and len(_pipe):
 			_pipe.execute()
 
 	def exists (self, model):
 		return self.handler.exists(self.getkey(model))
+
+	def all (self, model_cls):
+		""" Return all model instances id's. """
+		return self.handler.smembers(model_cls.getprefix())
 
 	def get (self, model, name):
 		""" Return value of model hash key. """

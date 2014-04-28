@@ -245,6 +245,17 @@ class Model (BaseModel):
 		if name in self._diff:
 			del self._diff[name]
 
+	@classmethod
+	def all (cls):
+		""" Return all model instances. """
+
+		instances = list()
+
+		for instance_id in cls.getdb().all(cls):
+			instances.append(cls(instance_id))
+
+		return instances
+
 	def get (self, name, default=None, origin=False, lite=False):
 		""" Return value of model[name].
 		Default value is returned if name not in model hash.
